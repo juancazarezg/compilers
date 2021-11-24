@@ -1,5 +1,5 @@
-f a
-i b
-b = 4
-a = b + 3.2
-p a
+float aaaa
+float bbbb
+bbbb = 4
+aaaa = bbbb + 3
+print aaaa

@@ -1,8 +1,7 @@
+import argparse
+import os
 import ply.yacc as yacc
 import ply.lex as lex
-import sys
-import fileinput
-
 
 
 literals = ['=', '+', '-', '*', '/', '(', ')']
@@ -61,21 +60,38 @@ precedence = (
 names = {}
 abstractTree = []
 
+class Node:
+    val = ''
+    type = ''
+    childrens = []
+
+    def __init__(self, val, type, childrens):
+        self.val = val
+        self.type = type
+        self.childrens = childrens
+
 def p_statement_declare_int(p):
-    '''statement : INTDEC NAME is_assing
+    '''statement : INTDEC NAME is_assign
     '''
-    names[p[2]] = { "type": "INT", "value":0}
+    if type(p[3]) == float:
+        print("You cannot assign a float to an integer.")
+    else:
+        c = Node(p[2], 'INT', [])
+        n = Node(p[3], '=', [c, p[3]])
+        abstractTree.append(n)
 
-def p_is_assing(p):
-    '''is_assing : "=" expression 
+def p_is_assign(p):
+    '''is_assign : "=" expression 
                 | '''
-    if 4 in p:
-        names[p[2]] = { "type": "INT", "value":p[4]}
-
+    p[0] = Node(0, 'INT', [])
+    if len(p) == 3:
+        p[0].type = p[2].type
+        p[0].val = p[2].val
+        p[0].childrens = p[2].childrens
 
 def p_statement_declare_float(p):
-    'statement : FLOATDEC NAME'
-    names[p[2]] = { "type": "FLOAT", "value":0}
+    'statement : FLOATDEC NAME is_assign'
+    names[p[2]] = { "type": "FLOAT", "value": p[3]}
 
 def p_statement_print(p):
     '''statement : PRINT '(' expression ')' '''
@@ -116,12 +132,12 @@ def p_expression_group(p):
 
 def p_expression_inumber(p):
     "expression : INUMBER"
-    p[0] = p[1]
+    p[0] = Node(p[1], 'INT', [])
 
 
 def p_expression_fnumber(p):
     "expression : FNUMBER"
-    p[0] = p[1]
+    p[0] = Node(p[1], 'FLOAT', [])
 
 
 def p_expression_name(p):
@@ -136,13 +152,29 @@ def p_expression_name(p):
 def p_error(p):
     if p:
         print(p)
-        print("Syntax error at line '%s' character '%s'" % (p.lexpos, p.lineno) )
+        print("Syntax error at line '%s' character '%s'" % (p.lineno, p.lexpos) )
     else:
         print("Syntax error at EOF")
 
 
 parser = yacc.yacc()
-
-while True:
-    for line in fileinput.input(encoding="utf-8"):
-        yacc.parse(line)
+argsParser = argparse.ArgumentParser()
+argsParser.add_argument(
+    "-file_path", help="Location of the file to compile, relative to current location.")
+args = argsParser.parse_args()
+if not args.file_path or not os.path.isfile(args.file_path):
+    print(f"File was not provided or does not exist. Entering manual mode.")
+    while True:
+        try:
+            s = input('calc > ')
+        except EOFError:
+            break
+        if not s:
+            continue
+        yacc.parse(s)
+else:
+    with open(args.file_path) as file:
+        lines = file.readlines()
+        for line in lines:
+            print('> ', line, end='')
+            yacc.parse(line)
