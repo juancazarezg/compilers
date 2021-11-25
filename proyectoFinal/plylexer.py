@@ -21,51 +21,52 @@ tokens = list(reserved.values()) + [
     'INTNUM',
     'FLOATNUM',
     'ID',
+    'STRING',
     'EQUALS',
     'NOTEQUALS',
     'GTREQTHAN',
     'LSSEQTHAN',
     'SENTEND',
-    'STRING',
+    
 ]
 
 literals = ['+', '-', '*', '/', '=', '^','>', '<', '(', ')', '{', '}', '"']
 
-t_EQUALS = r'=='
-t_NOTEQUALS = r'!='
-t_GTREQTHAN = r'>='
-t_LSSEQTHAN = r'<='
-t_SENTENCE_END = r';'
-t_ignore = ' \t'
+def t_INTNUM(t):
+    r'\d+'
+    t.value = int(t.value)
+    t.type = 'INTNUM'
+    return t
 
+def t_FLOATNUM(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)
+    t.type = 'FLOATNUM'
+    return t
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = 'ID'
+    return t
 
 def t_STRING(t):
     r'"([^"\n]|(\\"))*"'
     t.type = 'STRING'
     return t
 
-def t_NAME(self, t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'ID')
-    return t
+t_EQUALS = r'=='
+t_NOTEQUALS = r'!='
+t_GTREQTHAN = r'>='
+t_LSSEQTHAN = r'<='
+t_SENTEND = r';'
+t_ignore = ' \t'
 
-def t_FNUMBER(self, t):
-    r'\d+\.\d+'
-    t.value = float(t.value)
-    t.type = 'FLOATNUM'
-    return t
 
-def t_INUMBER(self, t):
-    r'\d+'
-    t.value = int(t.value)
-    t.type = 'INTNUM'
-    return t
-
-def t_newline(self, t):
+def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
-def t_error(self, t):
+def t_error(t):
     errorLine = t.lexer.lineno - 1
     errorToken = t.value[0]
 
