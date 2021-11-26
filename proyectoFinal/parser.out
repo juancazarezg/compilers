@@ -11,7 +11,7 @@ Rule 5     statement -> declare ; statement
 Rule 6     statement -> print ; statement
 Rule 7     statement -> <empty>
 Rule 8     while -> WHILE ( expression ) { statement }
-Rule 9     for -> FOR ( assign ; expression ; declareAssign ) { statement }
+Rule 9     for -> FOR ( assign ; expression ; idAssign ) { statement }
 Rule 10    if -> IF ( expression ) { statement } elif else
 Rule 11    elif -> ELIF ( expression ) { statement } elif
 Rule 12    elif -> <empty>
@@ -23,10 +23,10 @@ Rule 17    type -> STRING
 Rule 18    type -> BOOL
 Rule 19    declare -> declaration
 Rule 20    declare -> assign
-Rule 21    declare -> declareAssign
+Rule 21    declare -> idAssign
 Rule 22    declaration -> type ID
 Rule 23    assign -> type ID = expression
-Rule 24    declareAssign -> ID = expression
+Rule 24    idAssign -> ID = expression
 Rule 25    print -> PRINT expression
 Rule 26    expression -> expression + expression
 Rule 27    expression -> expression - expression
@@ -97,11 +97,11 @@ ast                  : 0
 boolval              : 44
 declaration          : 19
 declare              : 5
-declareAssign        : 9 21
 elif                 : 10 11
 else                 : 10
 expression           : 8 9 10 11 23 24 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 40
 for                  : 2
+idAssign             : 9 21
 if                   : 4
 print                : 6
 statement            : 1 2 3 4 5 6 8 9 10 11 13
@@ -120,16 +120,16 @@ state 0
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -154,7 +154,7 @@ state 0
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -180,16 +180,16 @@ state 3
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -214,7 +214,7 @@ state 3
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -227,16 +227,16 @@ state 4
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -261,7 +261,7 @@ state 4
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -274,16 +274,16 @@ state 5
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -308,7 +308,7 @@ state 5
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -328,7 +328,7 @@ state 7
 
 state 8
 
-    (9) for -> FOR . ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> FOR . ( assign ; expression ; idAssign ) { statement }
 
     (               shift and go to state 26
 
@@ -342,9 +342,9 @@ state 9
 
 state 10
 
-    (21) declare -> declareAssign .
+    (21) declare -> idAssign .
 
-    ;               reduce using rule 21 (declare -> declareAssign .)
+    ;               reduce using rule 21 (declare -> idAssign .)
 
 
 state 11
@@ -416,7 +416,7 @@ state 15
 
 state 16
 
-    (24) declareAssign -> ID . = expression
+    (24) idAssign -> ID . = expression
 
     =               shift and go to state 40
 
@@ -482,16 +482,16 @@ state 24
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -516,7 +516,7 @@ state 24
     if                             shift and go to state 5
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -529,16 +529,16 @@ state 25
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -563,13 +563,13 @@ state 25
     if                             shift and go to state 5
     declare                        shift and go to state 6
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
 state 26
 
-    (9) for -> FOR ( . assign ; expression ; declareAssign ) { statement }
+    (9) for -> FOR ( . assign ; expression ; idAssign ) { statement }
     (23) assign -> . type ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
@@ -927,7 +927,7 @@ state 39
 
 state 40
 
-    (24) declareAssign -> ID = . expression
+    (24) idAssign -> ID = . expression
     (26) expression -> . expression + expression
     (27) expression -> . expression - expression
     (28) expression -> . expression * expression
@@ -981,7 +981,7 @@ state 42
 
 state 43
 
-    (9) for -> FOR ( assign . ; expression ; declareAssign ) { statement }
+    (9) for -> FOR ( assign . ; expression ; idAssign ) { statement }
 
     ;               shift and go to state 64
 
@@ -1674,7 +1674,7 @@ state 62
 
 state 63
 
-    (24) declareAssign -> ID = expression .
+    (24) idAssign -> ID = expression .
     (26) expression -> expression . + expression
     (27) expression -> expression . - expression
     (28) expression -> expression . * expression
@@ -1689,8 +1689,8 @@ state 63
     (37) expression -> expression . AND expression
     (38) expression -> expression . OR expression
 
-    ;               reduce using rule 24 (declareAssign -> ID = expression .)
-    )               reduce using rule 24 (declareAssign -> ID = expression .)
+    ;               reduce using rule 24 (idAssign -> ID = expression .)
+    )               reduce using rule 24 (idAssign -> ID = expression .)
     +               shift and go to state 47
     -               shift and go to state 48
     *               shift and go to state 49
@@ -1708,7 +1708,7 @@ state 63
 
 state 64
 
-    (9) for -> FOR ( assign ; . expression ; declareAssign ) { statement }
+    (9) for -> FOR ( assign ; . expression ; idAssign ) { statement }
     (26) expression -> . expression + expression
     (27) expression -> . expression - expression
     (28) expression -> . expression * expression
@@ -2445,7 +2445,7 @@ state 82
 
 state 83
 
-    (9) for -> FOR ( assign ; expression . ; declareAssign ) { statement }
+    (9) for -> FOR ( assign ; expression . ; idAssign ) { statement }
     (26) expression -> expression . + expression
     (27) expression -> expression . - expression
     (28) expression -> expression . * expression
@@ -2485,16 +2485,16 @@ state 84
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -2518,7 +2518,7 @@ state 84
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -2531,16 +2531,16 @@ state 85
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -2564,18 +2564,18 @@ state 85
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
 state 86
 
-    (9) for -> FOR ( assign ; expression ; . declareAssign ) { statement }
-    (24) declareAssign -> . ID = expression
+    (9) for -> FOR ( assign ; expression ; . idAssign ) { statement }
+    (24) idAssign -> . ID = expression
 
     ID              shift and go to state 16
 
-    declareAssign                  shift and go to state 89
+    idAssign                       shift and go to state 89
 
 state 87
 
@@ -2593,7 +2593,7 @@ state 88
 
 state 89
 
-    (9) for -> FOR ( assign ; expression ; declareAssign . ) { statement }
+    (9) for -> FOR ( assign ; expression ; idAssign . ) { statement }
 
     )               shift and go to state 92
 
@@ -2639,7 +2639,7 @@ state 91
 
 state 92
 
-    (9) for -> FOR ( assign ; expression ; declareAssign ) . { statement }
+    (9) for -> FOR ( assign ; expression ; idAssign ) . { statement }
 
     {               shift and go to state 95
 
@@ -2674,23 +2674,23 @@ state 94
 
 state 95
 
-    (9) for -> FOR ( assign ; expression ; declareAssign ) { . statement }
+    (9) for -> FOR ( assign ; expression ; idAssign ) { . statement }
     (2) statement -> . for statement
     (3) statement -> . while statement
     (4) statement -> . if statement
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -2708,7 +2708,7 @@ state 95
     BOOL            shift and go to state 20
 
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     statement                      shift and go to state 99
     for                            shift and go to state 3
     while                          shift and go to state 4
@@ -2782,7 +2782,7 @@ state 98
 
 state 99
 
-    (9) for -> FOR ( assign ; expression ; declareAssign ) { statement . }
+    (9) for -> FOR ( assign ; expression ; idAssign ) { statement . }
 
     }               shift and go to state 102
 
@@ -2796,16 +2796,16 @@ state 100
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -2829,7 +2829,7 @@ state 100
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 
@@ -2868,19 +2868,19 @@ state 101
 
 state 102
 
-    (9) for -> FOR ( assign ; expression ; declareAssign ) { statement } .
+    (9) for -> FOR ( assign ; expression ; idAssign ) { statement } .
 
-    FOR             reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    WHILE           reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    IF              reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    PRINT           reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    ID              reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    INT             reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    FLOAT           reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    STRING          reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    BOOL            reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    $end            reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
-    }               reduce using rule 9 (for -> FOR ( assign ; expression ; declareAssign ) { statement } .)
+    FOR             reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    WHILE           reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    IF              reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    PRINT           reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    ID              reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    INT             reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    FLOAT           reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    STRING          reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    BOOL            reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    $end            reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
+    }               reduce using rule 9 (for -> FOR ( assign ; expression ; idAssign ) { statement } .)
 
 
 state 103
@@ -2923,16 +2923,16 @@ state 106
     (5) statement -> . declare ; statement
     (6) statement -> . print ; statement
     (7) statement -> .
-    (9) for -> . FOR ( assign ; expression ; declareAssign ) { statement }
+    (9) for -> . FOR ( assign ; expression ; idAssign ) { statement }
     (8) while -> . WHILE ( expression ) { statement }
     (10) if -> . IF ( expression ) { statement } elif else
     (19) declare -> . declaration
     (20) declare -> . assign
-    (21) declare -> . declareAssign
+    (21) declare -> . idAssign
     (25) print -> . PRINT expression
     (22) declaration -> . type ID
     (23) assign -> . type ID = expression
-    (24) declareAssign -> . ID = expression
+    (24) idAssign -> . ID = expression
     (15) type -> . INT
     (16) type -> . FLOAT
     (17) type -> . STRING
@@ -2956,7 +2956,7 @@ state 106
     declare                        shift and go to state 6
     print                          shift and go to state 7
     assign                         shift and go to state 9
-    declareAssign                  shift and go to state 10
+    idAssign                       shift and go to state 10
     declaration                    shift and go to state 13
     type                           shift and go to state 15
 

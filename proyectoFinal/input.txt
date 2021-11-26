@@ -1,14 +1,12 @@
-int i = 10;
-int j;
-j = 4 ^ 10 + 2;
-j = 4 + 10 ^ 2;
+int num = 10;
+float res = 3.3
+string ejemplo = "Que pasa calabaza";
 
-if ( j < 1) {
-    j = 0;
-}
-elif (j>2){
-    j=3;
-}
-else {
-    print("hola");
+print(ejemplo);
+
+int a = 4;
+int b = 0;
+
+while(b<a){
+    b = b+1;
 }

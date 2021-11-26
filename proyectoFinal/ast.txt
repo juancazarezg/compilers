@@ -1,3 +1,7 @@
 AST:
 
-(('declareAssign', 'int', 'i', 10), ('declare', 'int', 'j'), ('assign', 'j', ('operation', ('operation', 4, '^', 10), '+', 2)), ('assign', 'j', ('operation', 4, '+', ('operation', 10, '^', 2))), ('if', ('operation', 'j', '<', 1), (('assign', 'j', 0),)))
+('assign', 'ejemplo', 'Que pasa calabaza')
+('print', 'ejemplo')
+('idAssign', 'int', 'a', 4)
+('idAssign', 'int', 'b', 0)
+('while', ('operation', 'b', '<', 'a'), (('assign', 'b', ('operation', 'b', '+', 1)),))

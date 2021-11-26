@@ -39,7 +39,7 @@ def p_while(p):
     p[0] = ('while', p[3], p[6])
 
 def p_for(p):
-    '''for : FOR '(' assign ';' expression ';' declareAssign ')' '{' statement '}' '''
+    '''for : FOR '(' assign ';' expression ';' idAssign ')' '{' statement '}' '''
     p[0] = ('for', p[3], p[5], p[7], p[10])
 
 def p_if(p):
@@ -70,7 +70,7 @@ def p_type(p):
 def p_declare(p):
     '''declare : declaration
                | assign
-               | declareAssign'''
+               | idAssign'''
     p[0] = p[1]
 
 def p_declaration(p):
@@ -79,10 +79,10 @@ def p_declaration(p):
 
 def p_assign(p):
     '''assign : type ID '=' expression'''
-    p[0] = ('declareAssign', p[1], p[2], p[4])
+    p[0] = ('idAssign', p[1], p[2], p[4])
 
-def p_declareAssign(p):
-    '''declareAssign : ID '=' expression'''
+def p_idAssign(p):
+    '''idAssign : ID '=' expression'''
     p[0] = ('assign', p[1], p[3])
     p[0] = ('assign', p[1], p[3])
 
@@ -145,10 +145,20 @@ file = open("input.txt", "r")
 s = file.read()
 yacc.parse(s)
 
+print()
+print("AST: ")
+print()
+
+
+
 file = open('ast.txt', 'w')
 file.write('AST:' + '\n')
-file.write('\n')
-file.write(str(ast))
+for val in ast:
+    print(val)
+    file.write('\n')
+    file.write(str(val))
 file.close()
 
+print()
 print('AST generated on ast.txt file')
+print()

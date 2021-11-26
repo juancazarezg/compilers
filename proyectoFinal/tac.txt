@@ -1,0 +1,9 @@
+ejemplo = Que pasa calabaza
+print = ejemplo
+a = 4.0
+b = 0.0
+while
+b = < a
+b + 1
+b = 1
+end while
