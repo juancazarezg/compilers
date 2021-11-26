@@ -1,0 +1,3 @@
+AST:
+
+(('declareAssign', 'int', 'i', 10), ('declare', 'int', 'j'), ('assign', 'j', ('operation', ('operation', 4, '^', 10), '+', 2)), ('assign', 'j', ('operation', 4, '+', ('operation', 10, '^', 2))), ('if', ('operation', 'j', '<', 1), (('assign', 'j', 0),)))

@@ -1,0 +1,14 @@
+int i = 10;
+int j;
+j = 4 ^ 10 + 2;
+j = 4 + 10 ^ 2;
+
+if ( j < 1) {
+    j = 0;
+}
+elif (j>2){
+    j=3;
+}
+else {
+    print("hola");
+}
