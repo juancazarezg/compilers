@@ -144,8 +144,7 @@ def for_sem(expr):
     assign(expr[1])
     operation(expr[2])
     id_assign(expr[3])
-    for stm in expr[4]:
-        callMethod(stm)
+    callMethod(expr[4])
     code.append('end for')
 
 def if_sem(expr):
@@ -153,8 +152,23 @@ def if_sem(expr):
     operation(expr[1])
     for stm in expr[2]:
         callMethod(stm)
-    index = 2
+    if(expr[3]):
+        elif_sem(expr[3])
+    if(expr[4]):
+        else_sem(expr[4])
     code.append('end if')
+
+def elif_sem(expr):
+    code.append('elif')
+    operation(expr[1])
+    for stm in expr[2]:
+        callMethod(stm)
+    code.append('end if')
+
+def else_sem(expr):
+    code.append('else')
+    for stm in expr[1]:
+        callMethod(stm)
 
 def while_sem(expr):
     code.append('while')

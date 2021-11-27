@@ -50,11 +50,9 @@ def p_if(p):
 
 def p_elif(p):
     '''elif : ELIF '(' expression ')' '{' statement '}' elif
-                 | '''
+            |'''
     if len(p) > 2:
-        p[0] = (('elif', p[3], p[6]),) + p[8]
-    else:
-        p[0] = ()
+        p[0] = ('elif', p[3], p[6] + p[8])
 
 def p_else(p):
     '''else : ELSE '{' statement '}'
