@@ -2,13 +2,13 @@ from parser import ast
 
 code = []
 
-def id_assign(expr):
+def assign(expr):
     res = "" + expr[2] + " = "
     if expr[1] == 'int' or expr[1] == 'float':
         if type(expr[3]) is not tuple:
             res = res + str(float(expr[3]))
         else:
-            res = res + operation(expr[3])
+            res = res + str(operation(expr[3]))
     else:
         res = res + str(expr[3])
 
@@ -16,6 +16,15 @@ def id_assign(expr):
 
 def declare(expr):
     res = "" + expr[1] + " = " + expr[2]
+    code.append(res)
+
+def id_assign(expr):
+    res = "" + expr[1] + " = "
+
+    if type(expr[2]) is not tuple:
+        res = res + str(expr[2])
+    else:
+        res = res + str(operation(expr[2]))
     code.append(res)
 
 def operation(expr):
@@ -27,7 +36,7 @@ def operation(expr):
         else:
             res = res + str(operation(expr[1]))
 
-        res = res + ' = ' + expr[2] + ' '
+        res = res + ' ' + expr[2] + ' '
 
         if type(expr[3]) is not tuple:
             res = res + str(expr[3])
@@ -121,123 +130,40 @@ def operation(expr):
         code.append(res)
         return resultExpr
 
-def assign(expr):
-    res = "" + expr[1] + " = "
-
-    if type(expr[2]) is not tuple:
-        res = res + str(expr[2])
-    else:
-        res = res + str(operation(expr[2]))
-
-    code.append(res)
 
 def print_sem(expr):
-    res = expr[0] + ' = ' + expr[1]
-    code.append(res)
+    if type(expr[1]) is not tuple:
+        res = expr[0] + ' = ' + expr[1]
+        code.append(res)
+    else:
+        res = expr[0] + ' = ' + str(operation(expr[1]))
+        code.append(res)
 
 def for_sem(expr):
     code.append('for')
-    id_assign(expr[1])
+    assign(expr[1])
     operation(expr[2])
-    assign(expr[3])
+    id_assign(expr[3])
     for stm in expr[4]:
-        if stm[0] == 'idAssign':
-            id_assign(stm)
-        elif stm[0] == 'declare':
-            declare(stm)
-        elif stm[0] == 'assign':
-            assign(stm)
-        elif stm[0] == 'print':
-            print_sem(stm)
-        elif stm[0] == 'if':
-            if_sem(stm[1])
-        elif stm[0] == 'while':
-            while_sem(stm)
+        callMethod(stm)
     code.append('end for')
 
 def if_sem(expr):
     code.append('if')
-    operation(expr[1][1])
-    for stm in expr[1][2]:
-        if stm[0] == 'idAssign':
-            id_assign(stm)
-        elif stm[0] == 'declare':
-            declare(stm)
-        elif stm[0] == 'assign':
-            assign(stm)
-        elif stm[0] == 'for':
-            for_sem(stm)
-        elif stm[0] == 'print':
-            print_sem(stm)
-        elif stm[0] == 'if':
-            if_sem(stm[1])
-        elif stm[0] == 'while':
-            while_sem(stm)
-    code.append('end if')
+    operation(expr[1])
+    for stm in expr[2]:
+        callMethod(stm)
     index = 2
-    while index < len(expr):
-        if len(expr[index]) > 0:
-            if expr[index][0][0] == 'elif':
-                code.append('elif')
-                operation(expr[index][0][1])
-                for stm in expr[index][0][2]:
-                    if stm[0] == 'idAssign':
-                        id_assign(stm)
-                    elif stm[0] == 'declare':
-                        declare(stm)
-                    elif stm[0] == 'assign':
-                        assign(stm)
-                    elif stm[0] == 'for':
-                        for_sem(stm)
-                    elif stm[0] == 'print':
-                        print_sem(stm)
-                    elif stm[0] == 'if':
-                        if_sem(stm[1])
-                    elif stm[0] == 'while':
-                        while_sem(stm)
-                code.append('end elif')
-            else:
-                code.append('else')
-                for stm in expr[index][1]:
-                    if stm[0] == 'idAssign':
-                        id_assign(stm)
-                    elif stm[0] == 'declare':
-                        declare(stm)
-                    elif stm[0] == 'assign':
-                        assign(stm)
-                    elif stm[0] == 'for':
-                        for_sem(stm)
-                    elif stm[0] == 'print':
-                        print_sem(stm)
-                    elif stm[0] == 'if':
-                        if_sem(stm[1])
-                    elif stm[0] == 'while':
-                        while_sem(stm)
-                code.append('end else')
-
-        index = index + 1
+    code.append('end if')
 
 def while_sem(expr):
     code.append('while')
     operation(expr[1])
     for stm in expr[2]:
-        if stm[0] == 'idAssign':
-            id_assign(stm)
-        elif stm[0] == 'declare':
-            declare(stm)
-        elif stm[0] == 'assign':
-            assign(stm)
-        elif stm[0] == 'for':
-            for_sem(stm)
-        elif stm[0] == 'print':
-            print_sem(stm)
-        elif stm[0] == 'if':
-            if_sem(stm)
-        elif stm[0] == 'while':
-            while_sem(stm)
+        callMethod(stm)
     code.append('end while')
 
-for expr in ast:
+def callMethod(expr):
     if expr[0] == 'idAssign':
         id_assign(expr)
     elif expr[0] == 'declare':
@@ -252,6 +178,9 @@ for expr in ast:
         if_sem(expr)
     elif expr[0] == 'while':
         while_sem(expr)
+
+for expr in ast:
+    callMethod(expr)
 
 print()
 print("TAC: ")

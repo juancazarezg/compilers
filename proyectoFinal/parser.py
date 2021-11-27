@@ -15,6 +15,8 @@ precedence = (
     ('right', 'UMINUS')
 )
 
+names = {}
+
 def p_start(p):
     '''ast : statement'''
     global ast
@@ -44,7 +46,7 @@ def p_for(p):
 
 def p_if(p):
     '''if : IF '(' expression ')' '{' statement '}' elif else '''
-    p[0] = ('if', p[3], p[6])
+    p[0] = ('if', p[3], p[6], p[8], p[9])
 
 def p_elif(p):
     '''elif : ELIF '(' expression ')' '{' statement '}' elif
@@ -60,6 +62,23 @@ def p_else(p):
     if len(p) > 2:
         p[0] = ('else', p[3])
 
+
+def p_declare(p):
+    '''declare : assign
+               | declaration
+               | idAssign'''
+    p[0] = p[1]
+
+def p_assign(p):
+    '''assign : type ID '=' expression'''
+    p[0] = ('assign', p[1], p[2], p[4])
+    names[p[2]] = p[4]
+
+def p_declaration(p):
+    '''declaration : type ID'''
+    p[0] = ('declare', p[1], p[2])
+    names[p[1]] = ''
+
 def p_type(p):
     '''type : INT
             | FLOAT
@@ -67,24 +86,10 @@ def p_type(p):
             | BOOL'''
     p[0] = p[1]
 
-def p_declare(p):
-    '''declare : declaration
-               | assign
-               | idAssign'''
-    p[0] = p[1]
-
-def p_declaration(p):
-    '''declaration : type ID'''
-    p[0] = ('declare', p[1], p[2])
-
-def p_assign(p):
-    '''assign : type ID '=' expression'''
-    p[0] = ('idAssign', p[1], p[2], p[4])
-
 def p_idAssign(p):
     '''idAssign : ID '=' expression'''
-    p[0] = ('assign', p[1], p[3])
-    p[0] = ('assign', p[1], p[3])
+    p[0] = ('idAssign', p[1], p[3])
+    names[p[1]] = p[3]
 
 def p_print(p):
     'print : PRINT expression'
@@ -105,7 +110,7 @@ def p_expression_operation(p):
                   | expression '<' expression
                   | expression AND expression
                   | expression OR expression'''
-    p[0] = ('operation', p[1], p[2], p[3])
+    p[0] = ('operation',p[1], p[2], p[3])
 
 def p_expression_uminus(p):
     '''expression : '-' expression %prec UMINUS'''
@@ -118,12 +123,12 @@ def p_expression_group(p):
 def p_expression_number(p):
     '''expression : INTNUM
                   | FLOATNUM
-                  | STRINGVAL
-                  | boolval'''
+                  | STRINGVAL'''
     p[0] = p[1]
 
+
 def p_boolVal(p):
-    '''boolval : TRUE
+    '''expression : TRUE
                | FALSE'''
     if p[1] == "true":
         p[0] = True
@@ -132,7 +137,7 @@ def p_boolVal(p):
 
 def p_expression_ID(p):
     "expression : ID"
-    p[0] = p[1]
+    p[0] = names[p[1]]
 
 def p_error(t):
     if t:
@@ -148,8 +153,6 @@ yacc.parse(s)
 print()
 print("AST: ")
 print()
-
-
 
 file = open('ast.txt', 'w')
 file.write('AST:' + '\n')

@@ -1,9 +1,17 @@
+num = 10.0
+res = 3.3
 ejemplo = Que pasa calabaza
-print = ejemplo
+print = Que pasa calabaza
 a = 4.0
 b = 0.0
-while
-b = < a
-b + 1
-b = 1
-end while
+for
+i = 0.0
+0 < 3
+0 + 1
+i = 1
+print = hola
+end for
+if
+0 < 3
+print = if correcto
+end if
